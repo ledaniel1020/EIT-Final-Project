@@ -86,16 +86,16 @@ def identify():
 def pc(peakCount):
     if peakCount == 1 :
         img1 = Image.open('pause.jpg')
-        img1.show()
+        #img1.show()
         return "pause play"
 
     elif peakCount == 2 :
         img1 = Image.open('next.jpg')
-        img1.show()
+        #img1.show()
         return "next song"
     elif peakCount == 3 :
         img1 = Image.open('prev.jpg')
-        img1.show()
+        #img1.show()
         return "prev song"
     elif peakCount>=4:
         return "try again"
@@ -103,11 +103,11 @@ def pc(peakCount):
 def pc1(peakCount1):
     if peakCount1 == 1: # nSubscore value for min snap sound:
         img1 = Image.open('answer.jpg')
-        img1.show()
+       # img1.show()
         return "answer call"
     elif peakCount1 == 2:
         img1 = Image.open('hangup.jpg')
-        img1.show()
+        #img1.show()
         return "hang up"
 
     else:
