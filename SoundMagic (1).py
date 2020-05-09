@@ -3,10 +3,10 @@ import time
 import datetime as dt
 import matplotlib.pyplot as plt
 import matplotlib.animation as anim
-from PIL import Image
+
 
 # phyphox configuration
-PP_ADDRESS = "http://192.168.0.154"
+PP_ADDRESS = "http://172.20.10.1"
 PP_CHANNELS = ["subscore", "currentScore"]
 
 # global var to save timestamp
@@ -52,62 +52,52 @@ def identify():
             p1=i #if it is quiet again, we will record the time for the snap from there
 
 
-        if float(subscore[i]) >=1.0 and float(subscore[i]) <=4.0:
+        if float(subscore[i]) >=1.0 and float(subscore[i]) <=6.0:
             if float(subscore[i-1])<=0.9:
                 p=i-1 # record the first occurence of snap
-            peak = int(xs[i][3:5]+xs[i][6:])-int(xs[p][3:5]+xs[p][6:])
-            if 100000<=peak<=200000: # if it is more than 0.1s, we will count it as a snap
+            peak = int(xs[i][0:2]+xs[i][3:5]+xs[i][6:])-int(xs[p][0:2]+xs[p][3:5]+xs[p][6:])
+            if 20000<=peak<=300000: # if it is more than 0.1s, we will count it as a snap
                 if cc!=p:
 
 
 
                     peakCount += 1
-                    if (peakCount==1 and peakCount1==0): index =0
+                    if (peakCount==1 and peakCount1==0): index =1
                     print (subscore[i])
                     cc=p
 
-        if float(subscore[i]) >4.0:
+        if float(subscore[i]) >6.0:
             if float(subscore[i-1]) <=0.9:
                 p1=i-1 # record the first occurence of snap
-            peak = int(xs[i][3:5] + xs[i][6:]) - int(xs[p1][3:5] + xs[p1][6:])
-            if 100000<=peak<=200000: # if it is more than 0.1s, we will count it as a snap
+            peak = int(xs[i][0:2]+xs[i][3:5] + xs[i][6:]) - int(xs[p1][0:2]+xs[p1][3:5] + xs[p1][6:])
+            if 20000<=peak<=300000: # if it is more than 0.1s, we will count it as a snap
                 if cc1!=p1:
                     peakCount1+=1
-                    if (peakCount1==1 and peakCount==0): index =1
+                    if (peakCount1==1 and peakCount==0): index =0
                     print(subscore[i])
                     cc1=p1
 
 
 
-    arr=[pc(peakCount), pc1(peakCount1)]
+    arr=[pc(peakCount1), pc1(peakCount)]
     return arr[index]
 
 
-def pc(peakCount):
-    if peakCount == 1 :
-        img1 = Image.open('pause.jpg')
-        #img1.show()
-        return "pause play"
-
-    elif peakCount == 2 :
-        img1 = Image.open('next.jpg')
-        #img1.show()
-        return "next song"
-    elif peakCount == 3 :
-        img1 = Image.open('prev.jpg')
-        #img1.show()
-        return "prev song"
-    elif peakCount>=4:
+def pc(peakCount1):
+    if peakCount1 == 1 :
+        return "play/pause play"
+    elif peakCount1 == 2 :
+        return "next media"
+    elif peakCount1 == 3 :
+        return "prev media"
+    elif peakCount1>=4:
         return "try again"
 
-def pc1(peakCount1):
-    if peakCount1 == 1: # nSubscore value for min snap sound:
-        img1 = Image.open('answer.jpg')
-       # img1.show()
+def pc1(peakCount):
+    if peakCount == 1: # nSubscore value for min snap sound:
+
         return "answer call"
-    elif peakCount1 == 2:
-        img1 = Image.open('hangup.jpg')
-        #img1.show()
+    elif peakCount == 2:
         return "hang up"
 
     else:
@@ -128,3 +118,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
